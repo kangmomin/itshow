@@ -19,6 +19,9 @@ public class Member extends BasicTime {
     private String loginId;
     private String password;
 
-    private String salt;
-
+    public Member(String name, String loginId, String password) {
+        this.name = name;
+        this.loginId = loginId;
+        this.password = password;
+    }
 }

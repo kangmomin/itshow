@@ -2,6 +2,8 @@ package com.itshow.demo.config.controller;
 
 import com.itshow.demo.dto.LoginDto;
 import com.itshow.demo.dto.Result;
+import com.itshow.demo.dto.SignUpDto;
+import com.itshow.demo.exception.AlreadyExistIdException;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.service.MemberService;
 import jakarta.validation.Valid;
@@ -26,6 +28,20 @@ public class MemberController {
             return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
         } catch (MemberNotFoundException e) {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<Result> signUp(@Valid @RequestBody SignUpDto signUpDto) {
+
+        try {
+            memberService.signUp(signUpDto);
+            return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
+        } catch (AlreadyExistIdException e) {
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.CONFLICT);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.BAD_REQUEST);

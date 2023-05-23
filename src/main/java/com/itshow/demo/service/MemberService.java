@@ -3,6 +3,8 @@ package com.itshow.demo.service;
 import com.itshow.demo.common.Crypto;
 import com.itshow.demo.domain.Member;
 import com.itshow.demo.dto.LoginDto;
+import com.itshow.demo.dto.SignUpDto;
+import com.itshow.demo.exception.AlreadyExistIdException;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +30,16 @@ public class MemberService {
                 // password가 일치하는지 확인
                 !pwdEncoder.matches(loginDto.getPassword(), member.getPassword())
         ) throw new MemberNotFoundException();
+    }
+
+    public void signUp(SignUpDto signUpDto) throws AlreadyExistIdException {
+        String encodedPassword = pwdEncoder.encode(signUpDto.getPassword());
+        Member validLoginId = memberRepository.findByLoginId(signUpDto.getLoginId());
+
+        if (validLoginId != null) throw new AlreadyExistIdException();
+
+        Member member = new Member(signUpDto.getName(),
+                signUpDto.getLoginId(), encodedPassword);
+        memberRepository.save(member);
     }
 }
