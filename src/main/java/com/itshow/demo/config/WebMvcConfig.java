@@ -18,7 +18,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         String ALLOW_METHOD_NAMES = "GET,HEAD,POST,PUT,DELETE,TRACE,OPTIONS,PATCH";
         registry.addMapping("/**")
                 .allowedOrigins("*")
-                .allowCredentials(true)
+//                .allowCredentials(true)
                 .exposedHeaders("X-Auth-Token", "X-Refresh-Token")
                 .allowedMethods(ALLOW_METHOD_NAMES.split(","));
     }
