@@ -21,23 +21,21 @@ public class JwtConfig {
 
     private final UserDetailsService userDetailsService;
 
-    public String createToken(Authentication authentication) {
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+    public String createToken(String loginId) {
         Date now = new Date();
         // 3H
         long validityInMilliseconds = 1000L * 60 * 60 * 3;
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(principal.getMember().getLoginId())
+                .setSubject(loginId)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
     }
 
-    public String createRefreshToken(Authentication authentication) {
-        PrincipalDetails principal = (PrincipalDetails) authentication.getPrincipal();
+    public String createRefreshToken(String loginId) {
         Date now = new Date();
 
         // 1M
@@ -45,7 +43,7 @@ public class JwtConfig {
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .setSubject(principal.getMember().getLoginId())
+                .setSubject(loginId)
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(SignatureAlgorithm.HS256, key)
