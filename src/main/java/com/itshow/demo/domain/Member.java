@@ -19,4 +19,6 @@ public class Member extends BasicTime {
     private String loginId;
     private String password;
 
+    private String salt;
+
 }
