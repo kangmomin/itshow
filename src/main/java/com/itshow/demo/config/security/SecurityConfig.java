@@ -40,4 +40,15 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(memberDetailsService)
+                .passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    // PasswordEncoder 인코딩 방식 설정
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

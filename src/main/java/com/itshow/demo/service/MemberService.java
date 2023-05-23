@@ -7,6 +7,7 @@ import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,14 +19,14 @@ import java.util.Objects;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder pwdEncoder;
 
     public void login(LoginDto loginDto) throws Exception {
 
         Member member = memberRepository.findByLoginId(loginDto.getLoginId());
         if (member == null || // id check
-                // password check
-                !Objects.equals(Crypto.encrypt(loginDto.getPassword(),
-                        member.getSalt()), member.getPassword())
+                // password가 일치하는지 확인
+                !pwdEncoder.matches(loginDto.getPassword(), member.getPassword())
         ) throw new MemberNotFoundException();
     }
 }

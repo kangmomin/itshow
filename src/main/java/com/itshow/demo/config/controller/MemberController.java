@@ -4,6 +4,7 @@ import com.itshow.demo.dto.LoginDto;
 import com.itshow.demo.dto.Result;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.service.MemberService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private MemberService memberService;
+    private final MemberService memberService;
 
     @PostMapping("/login")
-    public ResponseEntity<Result> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<Result> login(@Valid @RequestBody LoginDto loginDto) {
 
         try {
             memberService.login(loginDto);
