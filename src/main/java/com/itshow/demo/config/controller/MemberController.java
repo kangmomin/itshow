@@ -1,13 +1,17 @@
 package com.itshow.demo.config.controller;
 
+import com.itshow.demo.config.security.Jwt.JwtConfig;
+import com.itshow.demo.domain.Member;
 import com.itshow.demo.dto.LoginDto;
 import com.itshow.demo.dto.Result;
 import com.itshow.demo.dto.SignUpDto;
 import com.itshow.demo.exception.AlreadyExistIdException;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.service.MemberService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +23,20 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
+    private final JwtConfig jwtConfig;
 
     @PostMapping("/login")
-    public ResponseEntity<Result> login(@Valid @RequestBody LoginDto loginDto) {
+    public ResponseEntity<Result> login(@Valid @RequestBody LoginDto loginDto, HttpServletResponse response) {
 
         try {
-            memberService.login(loginDto);
-            return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
+            Member member = memberService.login(loginDto);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("X-Auth-Token", jwtConfig.createToken(member.getLoginId()));
+            headers.add("X-Refresh-Token", jwtConfig.createRefreshToken(member.getLoginId()));
+
+            return ResponseEntity.ok()
+                    .headers(headers)
+                    .body(new Result(null, false));
         } catch (MemberNotFoundException e) {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
