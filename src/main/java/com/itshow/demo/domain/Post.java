@@ -2,11 +2,10 @@ package com.itshow.demo.domain;
 
 import com.itshow.demo.domain.basicEntity.BasicEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Entity @Getter
+@Builder @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Post extends BasicEntity {
 
