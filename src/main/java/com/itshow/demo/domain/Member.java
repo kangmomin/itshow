@@ -1,10 +1,13 @@
 package com.itshow.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itshow.demo.domain.basicEntity.BasicTime;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,6 +21,12 @@ public class Member extends BasicTime {
 
     private String loginId;
     private String password;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "writeBy")
+    @JsonIgnore
+    private List<Post> post;
 
     public Member(String name, String loginId, String password) {
         this.name = name;

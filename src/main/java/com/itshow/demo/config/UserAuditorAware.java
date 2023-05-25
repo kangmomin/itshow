@@ -10,13 +10,15 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class UserAuditorAware implements AuditorAware<Member> {
+public class UserAuditorAware implements AuditorAware<String> {
 
     @NonNull
     @Override
-    public Optional<Member> getCurrentAuditor() {
+    public Optional<String> getCurrentAuditor() {
         Member loginMember = Util.getLoginMember();
+        if (loginMember == null) return Optional.empty();
+        String loginId = loginMember.getLoginId();
 
-        return Optional.ofNullable(loginMember);
+        return Optional.ofNullable(loginId);
     }
 }

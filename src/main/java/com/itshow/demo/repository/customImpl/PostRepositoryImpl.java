@@ -24,8 +24,6 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
     private final JPAQueryFactory query;
 
     /**
-     * first index == list entity
-     * second index == count entity
      * @param pageable
      * @return
      */
@@ -34,7 +32,8 @@ public class PostRepositoryImpl implements PostRepositoryCustom {
         List<PostDto> result = query.select(Projections.constructor(PostDto.class,
                         member.name, post.title, post.content, post.createdDate))
                 .from(post).distinct()
-                .leftJoin(post.createdBy, member)
+                .leftJoin(post.writeBy, member)
+                .on(member.loginId.eq(post.createdBy))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
