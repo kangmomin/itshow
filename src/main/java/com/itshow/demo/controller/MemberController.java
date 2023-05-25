@@ -31,8 +31,8 @@ public class MemberController {
         try {
             Member member = memberService.login(loginDto);
             HttpHeaders headers = new HttpHeaders();
-            headers.add("X-Auth-Token", jwtConfig.createToken(member.getLoginId()));
-            headers.add("X-Refresh-Token", jwtConfig.createRefreshToken(member.getLoginId()));
+            headers.add("X-Auth-Token", "Bearer " + jwtConfig.createToken(member.getLoginId()));
+            headers.add("X-Refresh-Token", "Bearer " + jwtConfig.createRefreshToken(member.getLoginId()));
 
             return ResponseEntity.ok()
                     .headers(headers)
