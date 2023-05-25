@@ -1,4 +1,4 @@
-package com.itshow.demo.config.controller;
+package com.itshow.demo.controller;
 
 import com.itshow.demo.config.security.Jwt.JwtConfig;
 import com.itshow.demo.domain.Member;
