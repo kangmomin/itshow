@@ -1,5 +1,6 @@
 package com.itshow.demo.domain.basicEntity;
 
+import com.itshow.demo.domain.Member;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -13,8 +14,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class BasicEntity extends BasicTime {
 
     @CreatedBy
-    private Long createdBy;
+    private Member createdBy;
 
     @LastModifiedBy
-    private Long lastUpdateBy;
+    private Member lastUpdateBy;
 }
