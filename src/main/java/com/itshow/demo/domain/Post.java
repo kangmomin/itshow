@@ -21,4 +21,12 @@ public class Post extends BasicEntity {
     @ManyToOne()
     @JoinColumn(name = "member_id")
     private Member writeBy;
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }
