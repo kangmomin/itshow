@@ -28,6 +28,12 @@ public class Member extends BasicTime {
     @JsonIgnore
     private List<Post> post;
 
+    @OneToMany(fetch = FetchType.LAZY,
+                cascade = CascadeType.ALL,
+                mappedBy = "member")
+    @JsonIgnore
+    private List<Reply> reply;
+
     public Member(String name, String loginId, String password) {
         this.name = name;
         this.loginId = loginId;
