@@ -74,8 +74,8 @@ public class ReplyController {
         }
     }
 
-    @PostMapping("/reply/update/{replyId}")
-    public ResponseEntity<Result> replyUpdate(@PathVariable("replyId") Long replyId) {
+    @PostMapping("/reply/delete/{replyId}")
+    public ResponseEntity<Result> deleteUpdate(@PathVariable("replyId") Long replyId) {
         try {
             replyService.deleteReply(replyId);
             return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
