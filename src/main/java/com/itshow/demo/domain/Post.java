@@ -1,5 +1,6 @@
 package com.itshow.demo.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.itshow.demo.domain.basicEntity.BasicEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,6 +29,12 @@ public class Post extends BasicEntity {
             cascade = CascadeType.ALL,
             mappedBy = "post")
     private Reply reply;
+
+    @OneToMany(fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL,
+            mappedBy = "post")
+    @JsonIgnore
+    private List<Favorite> favorite;
 
     public void setTitle(String title) {
         this.title = title;

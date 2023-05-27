@@ -5,6 +5,7 @@ import com.itshow.demo.dto.post.PagingDto;
 import com.itshow.demo.dto.post.PostDto;
 import com.itshow.demo.dto.post.UpdatePostDto;
 import com.itshow.demo.dto.post.WritePostDto;
+import com.itshow.demo.exception.FavoriteNotFoundException;
 import com.itshow.demo.exception.PostNotFoundException;
 import com.itshow.demo.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class PostController {
         }
     }
     @PostMapping("/post/write")
-    public ResponseEntity getPosts(@RequestBody WritePostDto writePostDto) {
+    public ResponseEntity writePost(@RequestBody WritePostDto writePostDto) {
 
         try {
             postService.writePost(writePostDto);
@@ -49,14 +50,14 @@ public class PostController {
     }
 
     @PostMapping("/post/update")
-    public ResponseEntity updatePosts(@RequestBody UpdatePostDto updatePostDto) {
+    public ResponseEntity updatePost(@RequestBody UpdatePostDto updatePostDto) {
 
         try {
             postService.updatePost(updatePostDto);
 
             return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
         } catch (PostNotFoundException e) {
-            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
         } catch (IllegalAccessException e) {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
@@ -65,14 +66,14 @@ public class PostController {
         }
     }
     @PostMapping("/post/delete/{id}")
-    public ResponseEntity deletePosts(@PathVariable("id") Long postId) {
+    public ResponseEntity deletePost(@PathVariable("id") Long postId) {
 
         try {
             postService.deletePost(postId);
 
             return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
         } catch (PostNotFoundException e) {
-            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
         } catch (IllegalAccessException e) {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
@@ -80,4 +81,38 @@ public class PostController {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @PostMapping("/post/favorite/{id}")
+    public ResponseEntity favoritePost(@PathVariable("id") Long postId) {
+
+        try {
+            postService.favoritPost(postId);
+
+            return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
+        } catch (PostNotFoundException e) {
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @PostMapping("/post/defavorite/{favoriteId}")
+    public ResponseEntity defavoritePost(@PathVariable("favoriteId") Long favoriteId) {
+
+        try {
+            postService.defavoritPost(favoriteId);
+
+            return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
+        } catch (FavoriteNotFoundException e) {
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
+        } catch (IllegalAccessException e) {
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.FORBIDDEN);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }

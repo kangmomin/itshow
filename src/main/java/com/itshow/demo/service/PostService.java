@@ -1,13 +1,16 @@
 package com.itshow.demo.service;
 
 import com.itshow.demo.common.Util;
+import com.itshow.demo.domain.Favorite;
 import com.itshow.demo.domain.Member;
 import com.itshow.demo.domain.Post;
 import com.itshow.demo.dto.post.PagingDto;
 import com.itshow.demo.dto.post.PostDto;
 import com.itshow.demo.dto.post.UpdatePostDto;
 import com.itshow.demo.dto.post.WritePostDto;
+import com.itshow.demo.exception.FavoriteNotFoundException;
 import com.itshow.demo.exception.PostNotFoundException;
+import com.itshow.demo.repository.FavoriteRepository;
 import com.itshow.demo.repository.MemberRepository;
 import com.itshow.demo.repository.PostRepository;
 import jakarta.transaction.Transactional;
@@ -27,6 +30,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final MemberRepository memberRepository;
+    private final FavoriteRepository favoriteRepository;
 
     public PagingDto<List<PostDto>> getPostList(Pageable page) {
 
@@ -69,5 +73,25 @@ public class PostService {
                     throw new IllegalAccessException("not a member's post");
 
         postRepository.delete(post.get());
+    }
+
+    public void favoritPost(Long postId) throws PostNotFoundException {
+        Optional<Post> post = postRepository.findById(postId);
+        Member member = Util.getLoginMember();
+
+        if (post.isEmpty()) throw new PostNotFoundException();
+
+        Favorite favorit = new Favorite(post.get(), member);
+        favoriteRepository.save(favorit);
+    }
+    public void defavoritPost(Long favoriteId) throws FavoriteNotFoundException, IllegalAccessException {
+        Optional<Favorite> favorite = favoriteRepository.findById(favoriteId);
+        Member member = Util.getLoginMember();
+
+        if (favorite.isEmpty()) throw new FavoriteNotFoundException();
+        if (!Objects.equals(favorite.get().getMember().getId(), member.getId()))
+            throw new IllegalAccessException("not the member's favorite");
+
+        favoriteRepository.delete(favorite.get());
     }
 }
