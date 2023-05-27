@@ -2,9 +2,9 @@ package com.itshow.demo.controller;
 
 import com.itshow.demo.config.security.Jwt.JwtConfig;
 import com.itshow.demo.domain.Member;
-import com.itshow.demo.dto.LoginDto;
+import com.itshow.demo.dto.member.LoginDto;
 import com.itshow.demo.dto.Result;
-import com.itshow.demo.dto.SignUpDto;
+import com.itshow.demo.dto.member.SignUpDto;
 import com.itshow.demo.exception.AlreadyExistIdException;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.service.MemberService;

@@ -1,8 +1,8 @@
 package com.itshow.demo.service;
 
 import com.itshow.demo.domain.Member;
-import com.itshow.demo.dto.LoginDto;
-import com.itshow.demo.dto.SignUpDto;
+import com.itshow.demo.dto.member.LoginDto;
+import com.itshow.demo.dto.member.SignUpDto;
 import com.itshow.demo.exception.AlreadyExistIdException;
 import com.itshow.demo.exception.MemberNotFoundException;
 import com.itshow.demo.repository.MemberRepository;

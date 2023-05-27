@@ -1,4 +1,4 @@
-package com.itshow.demo.dto;
+package com.itshow.demo.dto.post;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;

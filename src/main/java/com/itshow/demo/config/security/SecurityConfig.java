@@ -43,7 +43,7 @@ public class SecurityConfig {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                        .requestMatchers("/post/write").authenticated() // login 유저만 접근 가능
+                        .requestMatchers("/post/**").authenticated() // login 유저만 접근 가능
                         .anyRequest().permitAll()) // 전체 접근 가능
                 .addFilterBefore(new JwtAuthenticationFilter(jwtConfig),
                         UsernamePasswordAuthenticationFilter.class)

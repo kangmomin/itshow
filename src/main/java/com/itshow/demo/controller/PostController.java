@@ -1,6 +1,10 @@
 package com.itshow.demo.controller;
 
 import com.itshow.demo.dto.*;
+import com.itshow.demo.dto.post.PagingDto;
+import com.itshow.demo.dto.post.PostDto;
+import com.itshow.demo.dto.post.UpdatePostDto;
+import com.itshow.demo.dto.post.WritePostDto;
 import com.itshow.demo.exception.PostNotFoundException;
 import com.itshow.demo.service.PostService;
 import lombok.RequiredArgsConstructor;

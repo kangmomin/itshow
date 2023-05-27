@@ -1,4 +1,4 @@
-package com.itshow.demo.dto;
+package com.itshow.demo.dto.post;
 
 import com.itshow.demo.domain.Post;
 import lombok.AllArgsConstructor;

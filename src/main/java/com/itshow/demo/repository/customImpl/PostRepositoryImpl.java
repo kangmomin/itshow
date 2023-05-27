@@ -1,12 +1,8 @@
 package com.itshow.demo.repository.customImpl;
 
-import com.itshow.demo.domain.QMember;
-import com.itshow.demo.dto.PagingDto;
-import com.itshow.demo.dto.PostDto;
+import com.itshow.demo.dto.post.PostDto;
 import com.itshow.demo.repository.custom.PostRepositoryCustom;
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
-import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
