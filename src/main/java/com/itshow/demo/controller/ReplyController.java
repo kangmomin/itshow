@@ -66,6 +66,8 @@ public class ReplyController {
             return new ResponseEntity<>(new Result(null, false), HttpStatus.OK);
         } catch (ReplyNotFoundException e) {
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.NOT_FOUND);
+        } catch (IllegalAccessException e) {
+            return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.FORBIDDEN);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(new Result(e.getMessage(), true), HttpStatus.INTERNAL_SERVER_ERROR);

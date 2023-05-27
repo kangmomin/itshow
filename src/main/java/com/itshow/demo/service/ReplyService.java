@@ -42,11 +42,13 @@ public class ReplyService {
         replyRepository.save(reply);
     }
 
-    public void updateReply(String content, Long replyId) throws ReplyNotFoundException {
+    public void updateReply(String content, Long replyId) throws ReplyNotFoundException, IllegalAccessException {
         Member member = Util.getLoginMember();
         Optional<Reply> reply = replyRepository.findById(replyId);
 
         if (reply.isEmpty()) throw new ReplyNotFoundException();
+        if (!Objects.equals(reply.get().getMember().getId(), member.getId()))
+            throw new IllegalAccessException("Not the member's reply");
 
         reply.get().setContent(content);
     }
