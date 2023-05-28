@@ -16,4 +16,14 @@ public class Util {
             return null;
         }
     }
+
+    /**
+     * xss 공격 방어
+     * @param content
+     * @return escaped content
+     */
+    public static String escaper(String content) {
+        return content.replace("<", "&lt;")
+                .replace(">", "&gt");
+    }
 }

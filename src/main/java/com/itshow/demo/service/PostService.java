@@ -43,8 +43,8 @@ public class PostService {
     public void writePost(WritePostDto writePostDto) {
         Member loginMember = Util.getLoginMember();
         Post post = Post.builder()
-                .title(writePostDto.getTitle())
-                .content(writePostDto.getContent())
+                .title(Util.escaper(writePostDto.getTitle()))
+                .content(Util.escaper(writePostDto.getContent()))
                 .writeBy(loginMember)
                 .build();
         postRepository.save(post);
@@ -59,8 +59,8 @@ public class PostService {
         if (!Objects.equals(member.getLoginId(), post.get().getCreatedBy()))
             throw new IllegalAccessException("not a member's post");
 
-        post.get().setTitle(updatePostDto.getTitle());
-        post.get().setContent(updatePostDto.getContent());
+        post.get().setTitle(Util.escaper(updatePostDto.getTitle()));
+        post.get().setContent(Util.escaper(updatePostDto.getContent()));
     }
 
     public void deletePost(Long postId) throws PostNotFoundException, IllegalAccessException {

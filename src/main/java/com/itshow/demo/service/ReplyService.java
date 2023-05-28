@@ -37,7 +37,7 @@ public class ReplyService {
 
         if (post.isEmpty()) throw new PostNotFoundException();
 
-        Reply reply = new Reply(content, member, post.get());
+        Reply reply = new Reply(Util.escaper(content), member, post.get());
 
         replyRepository.save(reply);
     }
@@ -50,7 +50,7 @@ public class ReplyService {
         if (!Objects.equals(reply.get().getMember().getId(), member.getId()))
             throw new IllegalAccessException("Not the member's reply");
 
-        reply.get().setContent(content);
+        reply.get().setContent(Util.escaper(content));
     }
 
     public void deleteReply(Long replyId) throws ReplyNotFoundException, IllegalAccessException {
